@@ -1,0 +1,21 @@
+# Configuration for Sentinel-2, focusing on remapping the SCL band.
+sensor: Sentinel2
+logic_type: remap_scl
+
+# IMPORTANT: You must tell the system which band is the Scene Classification Layer (SCL).
+# The index will depend on how your Sentinel-2 GeoTIFFs are structured.
+# This example assumes it's the 12th band (index 11).
+# Please verify the band order of your specific GeoTIFF files.
+bands:
+  blue: 0
+  green: 1
+  red: 2
+  nir: 3
+  red_edge1: 4
+  red_edge2: 5
+  red_edge3: 6
+  nir_broad: 7
+  swir1: 8
+  swir2: 9
+  # The SCL band is often separate or last.
+  scl: 10 # Please verify this index!

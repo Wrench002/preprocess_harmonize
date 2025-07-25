@@ -1,0 +1,31 @@
+# configs/awifs_config.yaml
+sensor: AWiFS
+logic_type: optical_rules
+
+# Assumes input data is scaled 0-1 (surface reflectance).
+# If in DN, scale should be changed accordingly 
+scale_factor: 1.0 
+
+# Mapping of band names to array indices in the GeoTIFF.
+bands:
+  green: 0
+  red: 1
+  nir: 2
+  swir: 3
+
+# Thresholds for the rule-based QA logic (tunable).
+thresholds:
+  cloud:
+    brightness_min: 0.3
+    ndsi_max: 0.4
+    ndvi_max: 0.2
+  shadow:
+    brightness_max: 0.1
+  snow:
+    ndsi_min: 0.4
+    ndvi_max: 0.1
+  water:
+    ndwi_min: 0.3
+
+globals:
+  nodata_value: 0

@@ -1,0 +1,18 @@
+# configs/sar_config.yaml
+sensor: SAR
+logic_type: sar_rules # Tells the code to use the SAR-specific logic
+
+# Mapping for a dual-pol SAR sensor like Sentinel-1 or EOS-04.
+bands:
+  vv: 0
+  vh: 1
+
+# Thresholds are based on calibrated backscatter (Sigma0 in dB).
+thresholds:
+  saturation_db_max: 0
+  nodata_db_min: -35
+  speckle_coeff_var_min: 0.6
+  water_db_max: -22 # Calm water has very low backscatter
+
+globals:
+  nodata_value: 0

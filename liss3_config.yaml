@@ -1,0 +1,29 @@
+# configs/liss3_config.yaml
+sensor: LISS3
+logic_type: optical_rules
+
+scale_factor: 1.0 
+
+# Verify these band indices match your LISS-3 data.
+bands:
+  green: 0
+  red: 1
+  nir: 2
+  swir: 3
+
+# These thresholds are a starting point and should be tuned for LISS-3.
+thresholds:
+  cloud:
+    brightness_min: 0.3
+    ndsi_max: 0.4
+    ndvi_max: 0.2
+  shadow:
+    brightness_max: 0.1
+  snow:
+    ndsi_min: 0.4
+    ndvi_max: 0.1
+  water:
+    ndwi_min: 0.3
+
+globals:
+  nodata_value: 0

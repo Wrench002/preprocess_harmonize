@@ -1,0 +1,17 @@
+{
+  "raw_data_path": "D:/Satellite_Data/raw_images",
+  "final_output_path": "D:/Satellite_Data/final_images",
+  "sensors": [
+    "AWiFS",
+    "LISS3",
+    "LISS4",
+    "Landsat8",
+    "Sentinel2",
+    "SAR"
+  ],
+   "parallel_processing": true,
+  "max_workers": 4, 
+  "enable_phase_1": true,
+  "enable_phase_2": true,
+  "logging_level": "INFO"
+}

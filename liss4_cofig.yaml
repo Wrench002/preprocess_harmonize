@@ -1,0 +1,23 @@
+# configs/liss4_config.yaml
+sensor: LISS4
+logic_type: optical_rules
+
+scale_factor: 1.0 
+
+# LISS-4 has no SWIR band.
+bands:
+  green: 0
+  red: 1
+  nir: 2
+
+# Thresholds that do not rely on SWIR/NDSI.
+thresholds:
+  # The cloud/snow rules requiring NDSI will be skipped by the code.
+  # We can add a simpler brightness/NDVI rule for clouds later if needed.
+  shadow:
+    brightness_max: 0.1
+  water:
+    ndwi_min: 0.3
+
+globals:
+  nodata_value: 0
