@@ -1,0 +1,36 @@
+sensor: AWiFS
+logic_type: optical_rules
+
+# Mapping of band names to array indices in the GeoTIFF.
+bands:
+  green: 0
+  red: 1
+  nir: 2
+  swir: 3
+
+# Thresholds for QA masking.
+thresholds:
+  # Cloud Detection
+  cloud_brightness: 0.26         # Min sum(G,R,B) for cloud
+  cloud_whiteness: 0.70          # Whiteness threshold
+  cloud_ndvi: 0.40               # Max NDVI for cloud pixel
+
+  # Shadow & Water Detection
+  shadow_brightness: 0.16        # Max sum(G,R,B) for shadow
+  water_ndwi: 0.31               # NDWI threshold for water (G,NIR)
+  water_mndwi: 0.34              # MNDWI threshold for water (G,SWIR)
+
+  # Snow Detection
+  snow_ndsi: 0.40                # NDSI threshold (G,SWIR)
+  snow_brightness: 0.40          # Min brightness for snow
+
+  # Haze & Pollution Detection
+  haze_dark_object: 0.035        # Min blue over dark pixel for haze
+  haze_dark_pixel_max_nir: 0.15  # Max NIR to be considered "dark"
+  pollution_br_ratio: 1.15       # Blue/red ratio for pollution
+
+  # Smoke Detection (optional, not always used in mask)
+  smoke_swir_index: 0.17
+
+globals:
+  nodata_value: 0
