@@ -3,8 +3,6 @@
 ![Python](https://img.shields.io/badge/python-3.10+-blue?style=flat-square)
 ![License](https://img.shields.io/github/license/Wrench002/preprocess_harmonize?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-windows%20%7C%20linux-brightgreen?style=flat-square)
-![Issues](https://img.shields.io/github/issues/Wrench002/preprocess_harmonize?style=flat-square)
-![Stars](https://img.shields.io/github/stars/Wrench002/preprocess_harmonize?style=flat-square)
 
 A modular Python pipeline for harmonizing Earth Observation (EO) data from multiple sensors (e.g., **AWiFS, LISS-3, LISS-4, Sentinel-2, SAR, Landsat-8**).  
 This system automates the transformation from raw satellite data to harmonized, cloud-optimized products—enabling scalable geospatial analysis for agriculture, urban planning, environment, and AI/ML model training.
