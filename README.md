@@ -1,69 +1,75 @@
-Satellite Data Harmonization Pipeline 🛰️
+Markdown
+
+# Satellite Data Harmonization Pipeline 🛰️
+
 A modular pipeline for preprocessing, QA-masking, and harmonizing multi-sensor satellite imagery (optical and SAR) into multi-resolution, cloud-optimized tiles with a STAC-compliant catalog.
 
-📋 Features
-Sensor-Specific Preprocessing: Automated resampling, stacking, masking, temporal smoothing, compositing, and tiling.
+![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
+![Python Version](https://img.shields.io/badge/Python-3.10+-brightgreen.svg)
+![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows-lightgrey.svg)
 
-Advanced QA Masking: Detects and masks cloud, shadow, haze, pollution, water, and SAR speckle.
+---
 
-Robust Backend: Utilizes GDAL/Rasterio with Python-only or CLI fallbacks.
+## 📋 Features
 
-Harmonization: Creates multi-resolution pyramids as Cloud-Optimized GeoTIFFs (COG) with STAC metadata.
+* **Sensor-Specific Preprocessing**: Automated resampling, stacking, masking, temporal smoothing, compositing, and tiling.
+* **Advanced QA Masking**: Detects and masks cloud, shadow, haze, pollution, water, and SAR speckle.
+* **Robust Backend**: Utilizes GDAL/Rasterio with Python-only or CLI fallbacks.
+* **Harmonization**: Creates multi-resolution pyramids as Cloud-Optimized GeoTIFFs (COG) with STAC metadata.
+* **Automation**: Includes scripts for converting Sentinel-2 SAFE (`.jp2`) archives into pipeline-ready GeoTIFFs.
+* **Production Ready**: Idempotent, parallel-processing enabled, and designed for scalable workflows.
+* **Easy Integration**: Seamlessly connects with downstream analytics tools.
 
-Automation: Includes scripts for converting Sentinel-2 SAFE (.jp2) archives into pipeline-ready GeoTIFFs.
+---
 
-Production Ready: Idempotent, parallel-processing enabled, and designed for scalable workflows.
+## 📡 Supported Sensors
 
-Easy Integration: Seamlessly connects with downstream analytics tools.
+* AWiFS
+* LISS-3
+* LISS-4
+* Landsat 8
+* Sentinel-2
+* SAR (e.g., EOS-4, Sentinel-1)
 
-📡 Supported Sensors
-AWiFS
+---
 
-LISS-3
+## 🛠️ Installation
 
-LISS-4
+1.  **Clone the Repository**
+    ```bash
+    git clone [https://github.com/Wrench002/preprocess_harmonize.git](https://github.com/Wrench002/preprocess_harmonize.git)
+    cd preprocess_harmonize
+    ```
+2.  **Install Miniconda/Anaconda** if you don't have it already.
 
-Landsat 8
+3.  **Create and Activate Conda Environment** (Recommended)
+    ```bash
+    conda create -n satpipe python=3.10 -y
+    conda activate satpipe
+    ```
+4.  **Install Required Packages**
+    ```bash
+    conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
+    ```
+    > **Note**: The `libgdal-jp2openjpeg` package provides JPEG2000 (`.jp2`) support, which is required for Sentinel-2 SAFE conversion.
 
-Sentinel-2
+---
 
-SAR (e.g., EOS-4, Sentinel-1)
+## 🖥️ Setup & Environment
 
-🛠️ Installation
-Clone the Repository
+* **Tested On**: Windows 11 and Linux (Ubuntu 20+) with Anaconda/Miniconda.
+* **Dependencies**: Requires GDAL command-line tools (especially `gdal_translate`) to be available on your system's `PATH`.
+* **Hardware**: A minimum of **6 GB RAM** is recommended for parallel processing. Adjust the `max_workers` setting in `config.json` based on your system's capacity.
 
-Bash
+---
 
-git clone https://github.com/Wrench002/preprocess_harmonize.git
-cd preprocess_harmonize
-Install Miniconda/Anaconda if you don't have it already.
+## 📂 Data Preparation
 
-Create and Activate Conda Environment (Recommended)
+### 1. Raw Directory Organization
 
-Bash
+For each sensor, organize your input TIFFs or original Sentinel-2 `.SAFE` folders as follows:
 
-conda create -n satpipe python=3.10 -y
-conda activate satpipe
-Install Required Packages
-
-Bash
-
-conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
-Note: The libgdal-jp2openjpeg package provides JPEG2000 (.jp2) support, which is required for Sentinel-2 SAFE conversion.
-
-🖥️ Setup & Environment
-Tested On: Windows 11 and Linux (Ubuntu 20+) with Anaconda/Miniconda.
-
-Dependencies: Requires GDAL command-line tools (especially gdal_translate) to be available on your system's PATH.
-
-Hardware: A minimum of 6 GB RAM is recommended for parallel processing. Adjust the max_workers setting in config.json based on your system's capacity.
-
-📂 Data Preparation
-1. Raw Directory Organization
-For each sensor, organize your input TIFFs or original Sentinel-2 .SAFE folders as follows:
-
-Plaintext
-
+```text
 raw_images/
 ├── AWiFS/
 ├── LISS3/
@@ -119,7 +125,7 @@ Plaintext
   author = {Paranjai Gusaria},
   title = {Satellite Data Harmonization Pipeline},
   year = {2025},
-  url = {https://github.com/Wrench002/preprocess_harmonize},
+  url = {[https://github.com/Wrench002/preprocess_harmonize](https://github.com/Wrench002/preprocess_harmonize)},
   license = {Apache-2.0}
 }
 🙌 Contributing
