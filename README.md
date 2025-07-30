@@ -1,8 +1,6 @@
-Markdown
+# 🛰️ Satellite Data Harmonization Pipeline
 
-# Satellite Data Harmonization Pipeline 🛰️
-
-A modular pipeline for preprocessing, QA-masking, and harmonizing multi-sensor satellite imagery (optical and SAR) into multi-resolution, cloud-optimized tiles with a STAC-compliant catalog.
+A modular Python pipeline for harmonizing Earth Observation (EO) data from multiple sensors (e.g., AWiFS, LISS-3, LISS-4, Sentinel-2, SAR, Landsat-8). This system automates the transformation from raw satellite data to harmonized, cloud-optimized products—enabling scalable geospatial analysis for agriculture, urban planning, environment, and AI/ML model training.
 
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![Python Version](https://img.shields.io/badge/Python-3.10+-brightgreen.svg)
@@ -10,66 +8,63 @@ A modular pipeline for preprocessing, QA-masking, and harmonizing multi-sensor s
 
 ---
 
-## 📋 Features
+## ⚙️ Core Workflow
 
-* **Sensor-Specific Preprocessing**: Automated resampling, stacking, masking, temporal smoothing, compositing, and tiling.
-* **Advanced QA Masking**: Detects and masks cloud, shadow, haze, pollution, water, and SAR speckle.
-* **Robust Backend**: Utilizes GDAL/Rasterio with Python-only or CLI fallbacks.
-* **Harmonization**: Creates multi-resolution pyramids as Cloud-Optimized GeoTIFFs (COG) with STAC metadata.
-* **Automation**: Includes scripts for converting Sentinel-2 SAFE (`.jp2`) archives into pipeline-ready GeoTIFFs.
-* **Production Ready**: Idempotent, parallel-processing enabled, and designed for scalable workflows.
-* **Easy Integration**: Seamlessly connects with downstream analytics tools.
+- **Sensor-Specific Stacking**: Merges bands by date into multi-band images per sensor.
+- **Resampling & Reprojection**: Aligns all images to a common resolution and CRS.
+- **Temporal Smoothing**: Applies pixel-wise time-series smoothing for cleaner analysis.
+- **Advanced QA Masking**: Flags clouds, haze, water, SAR speckle, shadows, and no-data zones using sensor-specific thresholds.
+- **Compositing & Tiling**: Generates cloud-optimized tiles and pyramid composites for ML/GIS.
+- **Cross-Sensor Harmonization**: Radiometric and spatial harmonization across sensors.
+- **STAC Metadata Generation**: Catalogs outputs for AI-ready and GIS-searchable data ingestion.
 
 ---
 
-## 📡 Supported Sensors
+## 📋 Features
 
-* AWiFS
-* LISS-3
-* LISS-4
-* Landsat 8
-* Sentinel-2
-* SAR (e.g., EOS-4, Sentinel-1)
+- ✅ **Supports**: AWiFS, LISS-3, LISS-4, Landsat-8, Sentinel-2, SAR
+- ⚡ **Parallelized**: Uses `joblib` for multi-core processing
+- 📦 **Automated SAFE Conversion**: Converts Sentinel-2 `.SAFE` to standardized TIFFs
+- 🧠 **AI/ML Ready**: Outputs are harmonized and optimized for model pipelines
+- 🧩 **Modular & Configurable**: YAML-based configs per sensor with customizable parameters
 
 ---
 
 ## 🛠️ Installation
 
-1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/Wrench002/preprocess_harmonize.git](https://github.com/Wrench002/preprocess_harmonize.git)
-    cd preprocess_harmonize
-    ```
-2.  **Install Miniconda/Anaconda** if you don't have it already.
+### 1. Clone the Repository
 
-3.  **Create and Activate Conda Environment** (Recommended)
-    ```bash
-    conda create -n satpipe python=3.10 -y
-    conda activate satpipe
-    ```
-4.  **Install Required Packages**
-    ```bash
-    conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
-    ```
-    > **Note**: The `libgdal-jp2openjpeg` package provides JPEG2000 (`.jp2`) support, which is required for Sentinel-2 SAFE conversion.
+```bash
+git clone https://github.com/Wrench002/preprocess_harmonize.git
+cd preprocess_harmonize
+2. Install Miniconda/Anaconda (if not already installed)
+3. Create and Activate Conda Environment
+bash
+Copy
+Edit
+conda create -n satpipe python=3.10 -y
+conda activate satpipe
+4. Install Required Dependencies
+bash
+Copy
+Edit
+conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
+Note: libgdal-jp2openjpeg enables JPEG2000 (.jp2) decoding used in Sentinel-2 .SAFE files.
 
----
+🖥️ Environment & Requirements
+Tested on: Windows 11, Ubuntu 20.04+
 
-## 🖥️ Setup & Environment
+RAM: Minimum 6 GB recommended for parallel execution
 
-* **Tested On**: Windows 11 and Linux (Ubuntu 20+) with Anaconda/Miniconda.
-* **Dependencies**: Requires GDAL command-line tools (especially `gdal_translate`) to be available on your system's `PATH`.
-* **Hardware**: A minimum of **6 GB RAM** is recommended for parallel processing. Adjust the `max_workers` setting in `config.json` based on your system's capacity.
+Command-Line Tools: Ensure gdal_translate and other GDAL tools are in your system PATH
 
----
+📂 Data Preparation
+1. Directory Structure
+Organize input data under raw_images/:
 
-## 📂 Data Preparation
-
-### 1. Raw Directory Organization
-
-For each sensor, organize your input TIFFs or original Sentinel-2 `.SAFE` folders as follows:
-
-```text
+ruby
+Copy
+Edit
 raw_images/
 ├── AWiFS/
 ├── LISS3/
@@ -77,66 +72,83 @@ raw_images/
 ├── SAR/
 ├── Landsat8/
 └── Sentinel2/
-    └── S2?MSIL2A<...>.SAFE/
+    └── S2??MSIL2A_*.SAFE/
 2. Prepare and Rename Files
-Run the preparation script to convert Sentinel-2 .SAFE bands to GeoTIFFs and standardize file names across all sensors. The script ensures filenames follow a YYYYMMDD_Sensor_Band.tif format (e.g., 20250108_LISS3_B1.tif).
+Use the utility script to standardize band names and convert Sentinel-2 .SAFE archives to GeoTIFF:
 
-Bash
-
+bash
+Copy
+Edit
 python prepare_all_sensors.py D:/Satellite_Data/raw_images
-Tip: If the script doesn't automatically match your files due to custom naming conventions, see the helper scripts in the /utils directory or the comments within the code.
+Output format: YYYYMMDD_SENSOR_BAND.tif (e.g., 20250108_LISS3_B1.tif)
 
-🚀 How to Run
-Edit the Configuration: Modify config.json to specify the sensors to process, desired pyramid levels, target CRS, and parallelization settings. Sensor-specific parameters are located in the YAML files within the /configs directory.
+If your filenames don’t match, refer to /utils/ for helpers or edit the script as needed.
 
-Run the Main Pipeline:
+🚀 Running the Pipeline
+Step 1: Edit the Configuration
+Modify config.json and the sensor-specific YAML files in /configs/.
 
-Bash
+Choose sensors
 
-python main_pipeline.py --input-path D:/Satellite_Data/raw_images --output-path D:/Satellite_Data/final_images/harmonized --config config.json --parallel --max-workers 4
-For Windows Users: Either write the command on a single line or use the ^ character for line continuation.
+Define harmonization levels
 
-Pipeline Outputs
-Phase 1: Creates per-sensor, per-date preprocessed tiles complete with QA masks.
+Set CRS, resampling, and tiling preferences
 
-Phase 2: Generates the final harmonized, multi-resolution tiled pyramids and a STAC catalog in the specified output directory.
+Adjust parallelization settings
 
-📁 Directory Structure
-Plaintext
+Step 2: Launch Pipeline
+bash
+Copy
+Edit
+python main_pipeline.py \
+  --input-path D:/Satellite_Data/raw_images \
+  --output-path D:/Satellite_Data/final_images/harmonized \
+  --config config.json \
+  --parallel \
+  --max-workers 4
+On Windows, either use a single line or ^ for line continuation.
 
+📁 Project Structure
+pgsql
+Copy
+Edit
 preprocess_harmonize/
-├── configs/              # YAML configs: band maps, QA thresholds, etc.
-├── eo_qamask/            # Sensor-agnostic QA-masking library
-├── phase_1/              # Sensor preprocessor code
-├── phase_2/              # Harmonizer code (tile pyramid, STAC, etc)
-├── data-prep-scripts/    # File preparation/conversion utilities
-├── main_pipeline.py      # Pipeline entry point
-├── config.json           # Main pipeline configuration
-├── README.md             # This file
-└── LICENSE               # Apache 2.0
-©️ Citation and License
+├── configs/              # YAML configs: band mappings, QA rules, etc.
+├── eo_qamask/            # QA masking logic per sensor
+├── phase_1/              # Preprocessing modules: stacking, smoothing, etc.
+├── phase_2/              # Harmonization: tiling, STAC, mosaics
+├── data-prep-scripts/    # File renaming and conversion utilities
+├── main_pipeline.py      # Entry point
+├── config.json           # Main configuration
+├── LICENSE               # Apache License 2.0
+└── README.md             # This file
+📖 Citation & License
 This project is licensed under the Apache License 2.0.
 
-If you use this repository or its code in your research or production environment, please cite it as follows:
+If you use this pipeline in your research or production systems, please cite:
 
-Plaintext
-
+bibtex
+Copy
+Edit
 @software{preprocess_harmonize,
   author = {Paranjai Gusaria},
   title = {Satellite Data Harmonization Pipeline},
   year = {2025},
-  url = {[https://github.com/Wrench002/preprocess_harmonize](https://github.com/Wrench002/preprocess_harmonize)},
+  url = {https://github.com/Wrench002/preprocess_harmonize},
   license = {Apache-2.0}
 }
-🙌 Contributing
-Pull requests, issue reports, and community contributions are welcome! Please open an issue on GitHub for any bugs, feature requests, or suggestions for sensor-specific enhancements.
+🤝 Contributing
+Contributions are welcome! Submit PRs, raise issues, or suggest improvements.
 
-Acknowledgments
-Sentinel/SAR pre-processing logic is designed in accordance with ESA/ISRO data policies.
+🙏 Acknowledgments
+Inspired by data pipelines from ESA, ISRO, and open-source geospatial communities
 
-Special thanks to the developers and communities behind GDAL, Rasterio, and Anaconda.
+Built on top of GDAL, Rasterio, SciPy, and Anaconda ecosystems
 
-Questions?
-Open an issue on GitHub or email pgr.0002@gmail.com.
+💬 Questions?
+Open an issue or reach out:
+📧 pgr.0002@gmail.com
 
-Happy harmonizing!
+Happy harmonizing! 🌍
+
+
