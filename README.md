@@ -47,35 +47,35 @@ This system automates the transformation from raw satellite data to harmonized, 
 ## 🛠️ Installation
 
 ### 1. Clone the Repository
-
 ```bash
 git clone https://github.com/Wrench002/preprocess_harmonize.git
 cd preprocess_harmonize
+```
 
-2. Set Up Conda Environment
-bash-
-conda create -n satpipe python=3.10 -y (or any name you prefer)
-
+### 2. Set Up Conda Environment
+```bash
+conda create -n satpipe python=3.10 -y
 conda activate satpipe
+```
 
-3. Install Dependencies
-bash-
+### 3. Install Dependencies
+```bash
 conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
-
+```
 📝 libgdal-jp2openjpeg is required to decode JPEG2000 (.jp2) used in Sentinel-2.
 
-🖥️ Environment & Requirements
-OS: Windows 11, Ubuntu 20.04+
 
-RAM: 6 GB+ recommended
+## 🖥️ Environment & Requirements
+**OS:** Windows 11, Ubuntu 20.04+
 
-Tools: Ensure gdal_translate and other GDAL tools are available in PATH
+**RAM:** 6 GB+ recommended
 
-📂 Data Preparation
+**Tools:** Ensure gdal_translate and other GDAL tools are available in PATH
 
+
+## 📂 Data Preparation
 1. Organize Input Data
-
-bash-
+```bash
 raw_images/
 ├── AWiFS/
 ├── LISS3/
@@ -84,22 +84,21 @@ raw_images/
 ├── Landsat8/
 └── Sentinel2/
     └── S2??MSIL2A_*.SAFE/
+```
 
 2. Convert and Rename Files
 Run:
-bash-
-
+```bash
 python prepare_all_sensors.py (input path)
-
+```
 This standardizes band names and converts .SAFE files to GeoTIFF format.
 Output format: YYYYMMDD_SENSOR_BAND.tif (e.g., 20250108_LISS3_B1.tif)
 
 ⚠️ If filenames don’t match expected format, refer to /utils/ for helper scripts.
 
-🚀 Running the Pipeline
 
-Step 1: Edit Configs
-
+## 🚀 Running the Pipeline
+### Step 1: Edit Configs
 config.json: general settings
 
 /configs/: sensor-specific YAMLs
@@ -114,20 +113,20 @@ Harmonization level
 
 Parallelization
 
-Step 2: Run
-
-bash-
-
+### Step 2: Run
+```bash
 python main_pipeline.py \
   --input-path (your input path)
   --output-path (your output path)
   --config config.json \
   --parallel \
   --max-workers 4
+```
 🔧 On Windows, use ^ or combine into one line.
 
-📁 Project Structure
 
+## 📁 Project Structure
+```bash
 preprocess_harmonize/
 ├── configs/              # YAML configs for bands & QA
 ├── eo_qamask/            # QA masking functions per sensor
@@ -138,11 +137,14 @@ preprocess_harmonize/
 ├── main_pipeline.py      # Entry point
 ├── LICENSE
 └── README.md
+```
 
-📖 Citation & License
-Licensed under Apache License 2.0.
 
-If you use this pipeline in research/publication:
+## 📖 Citation & License
+* Licensed under Apache License 2.0.
+
+* If you use this pipeline in research/publication:
+```
 @software{preprocess_harmonize,
   author = {Paranjai Gusaria},
   title = {Satellite Data Harmonization Pipeline},
@@ -150,17 +152,18 @@ If you use this pipeline in research/publication:
   url = {https://github.com/Wrench002/preprocess_harmonize},
   license = {Apache-2.0}
 }
-🤝 Contributing
-Pull requests, issues, and suggestions are welcome!
-Please follow modular structure and submit clean PRs with explanations.
+```
 
-🙏 Acknowledgments
-Inspired by pipelines from ISRO and the open geospatial community.
+## 🤝 Contributing
+* Pull requests, issues, and suggestions are welcome!
+* Please follow modular structure and submit clean PRs with explanations.
 
-Built on: GDAL, Rasterio, NumPy, SciPy, Anaconda
+## 🙏 Acknowledgments
+* Inspired by pipelines from ESA, ISRO, and the open geospatial community
+* Built on: GDAL, Rasterio, NumPy, SciPy, Anaconda
 
-💬 Contact
-📧 Email: pgr.0002@gmail.com
-🔗 Repo: github.com/Wrench002/preprocess_harmonize
+## 💬 Contact
+* 📧 Email: pgr.0002@gmail.com
+* 🔗 Repo: github.com/Wrench002/preprocess_harmonize
 
-Happy Harmonizing! 🌍
+# Happy Harmonizing! 🌍
