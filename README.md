@@ -74,7 +74,7 @@ Tools: Ensure gdal_translate and other GDAL tools are available in PATH
 📂 Data Preparation
 
 1. Organize Input Data
-
+```
 bash-
 raw_images/
 ├── AWiFS/
@@ -84,13 +84,14 @@ raw_images/
 ├── Landsat8/
 └── Sentinel2/
     └── S2??MSIL2A_*.SAFE/
-
+```
 2. Convert and Rename Files
 Run:
+```
 bash-
 
 python prepare_all_sensors.py (input path)
-
+```
 This standardizes band names and converts .SAFE files to GeoTIFF format.
 Output format: YYYYMMDD_SENSOR_BAND.tif (e.g., 20250108_LISS3_B1.tif)
 
@@ -127,7 +128,7 @@ python main_pipeline.py \
 🔧 On Windows, use ^ or combine into one line.
 ```
 📁 Project Structure
-
+```
 preprocess_harmonize/
 ├── configs/              # YAML configs for bands & QA
 ├── eo_qamask/            # QA masking functions per sensor
@@ -138,7 +139,7 @@ preprocess_harmonize/
 ├── main_pipeline.py      # Entry point
 ├── LICENSE
 └── README.md
-
+```
 📖 Citation & License
 Licensed under Apache License 2.0.
 
