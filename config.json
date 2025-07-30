@@ -1,0 +1,19 @@
+{
+  "sensors": [
+    "AWiFS",
+    "LISS3",
+    "LISS4",
+    "Landsat8",
+    "Sentinel2",
+    "SAR"
+  ],
+  "enable_phase_1": true,
+  "enable_phase_2": true,
+  "parallel_processing": true,
+  "max_workers": 6,
+  "logging_level": "INFO",
+  "sar_resolution": 25,
+  "target_crs": "EPSG:32644",
+  "pyramid_levels": ["P0", "P1", "P2", "P3", "P4", "P5"],
+  "configs_dir": "configs"
+}
