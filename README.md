@@ -52,15 +52,11 @@ This system automates the transformation from raw satellite data to harmonized, 
 git clone https://github.com/Wrench002/preprocess_harmonize.git
 cd preprocess_harmonize
 2. Set Up Conda Environment
-bash
-Copy
-Edit
+bash-
 conda create -n satpipe python=3.10 -y
 conda activate satpipe
 3. Install Dependencies
-bash
-Copy
-Edit
+bash-
 conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
 📝 libgdal-jp2openjpeg is required to decode JPEG2000 (.jp2) used in Sentinel-2.
 
@@ -73,9 +69,7 @@ Tools: Ensure gdal_translate and other GDAL tools are available in PATH
 
 📂 Data Preparation
 1. Organize Input Data
-bash
-Copy
-Edit
+bash-
 raw_images/
 ├── AWiFS/
 ├── LISS3/
