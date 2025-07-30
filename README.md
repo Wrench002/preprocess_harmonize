@@ -61,7 +61,7 @@ conda activate satpipe
 3. Install Dependencies
 bash-
 conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
-
+```
 📝 libgdal-jp2openjpeg is required to decode JPEG2000 (.jp2) used in Sentinel-2.
 
 🖥️ Environment & Requirements
@@ -115,7 +115,7 @@ Harmonization level
 Parallelization
 
 Step 2: Run
-
+```
 bash-
 
 python main_pipeline.py \
@@ -125,7 +125,7 @@ python main_pipeline.py \
   --parallel \
   --max-workers 4
 🔧 On Windows, use ^ or combine into one line.
-
+```
 📁 Project Structure
 
 preprocess_harmonize/
