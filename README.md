@@ -82,7 +82,7 @@ raw_images/
 Run:
 
 bash-
-python prepare_all_sensors.py D:/Satellite_Data/raw_images
+python prepare_all_sensors.py (input path)
 This standardizes band names and converts .SAFE files to GeoTIFF format.
 Output format: YYYYMMDD_SENSOR_BAND.tif (e.g., 20250108_LISS3_B1.tif)
 
@@ -107,8 +107,8 @@ Parallelization
 Step 2: Run
 bash-
 python main_pipeline.py \
-  --input-path D:/Satellite_Data/raw_images \
-  --output-path D:/Satellite_Data/final_images/harmonized \
+  --input-path (your input path)
+  --output-path (your output path)
   --config config.json \
   --parallel \
   --max-workers 4
