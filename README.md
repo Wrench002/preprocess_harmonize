@@ -81,9 +81,7 @@ raw_images/
 2. Convert and Rename Files
 Run:
 
-bash
-Copy
-Edit
+bash-
 python prepare_all_sensors.py D:/Satellite_Data/raw_images
 This standardizes band names and converts .SAFE files to GeoTIFF format.
 Output format: YYYYMMDD_SENSOR_BAND.tif (e.g., 20250108_LISS3_B1.tif)
@@ -107,9 +105,7 @@ Harmonization level
 Parallelization
 
 Step 2: Run
-bash
-Copy
-Edit
+bash-
 python main_pipeline.py \
   --input-path D:/Satellite_Data/raw_images \
   --output-path D:/Satellite_Data/final_images/harmonized \
@@ -119,9 +115,6 @@ python main_pipeline.py \
 🔧 On Windows, use ^ or combine into one line.
 
 📁 Project Structure
-pgsql
-Copy
-Edit
 preprocess_harmonize/
 ├── configs/              # YAML configs for bands & QA
 ├── eo_qamask/            # QA masking functions per sensor
@@ -136,10 +129,6 @@ preprocess_harmonize/
 Licensed under Apache License 2.0.
 
 If you use this pipeline in research/publication:
-
-bibtex
-Copy
-Edit
 @software{preprocess_harmonize,
   author = {Paranjai Gusaria},
   title = {Satellite Data Harmonization Pipeline},
