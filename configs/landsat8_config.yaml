@@ -1,0 +1,15 @@
+sensor: Landsat8
+logic_type: remap_qa  # Tells the code to use the QA band remapping logic
+
+# Mapping for a standard Landsat 8 Collection 2 Level-2 product.
+# The 'remap_qa' logic only requires the 'qa_pixel' band to be defined.
+bands:
+  blue: 0
+  green: 1
+  red: 2
+  nir: 3
+  swir1: 4
+  swir2: 5
+  qa_pixel: 6  # The crucial QA band that will be remapped.
+
+# No 'thresholds' section is needed—official QA bits are remapped directly.

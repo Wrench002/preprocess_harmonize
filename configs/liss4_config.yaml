@@ -1,0 +1,27 @@
+sensor: LISS4
+logic_type: optical_rules
+
+# LISS-4 has no SWIR band. Only visible and NIR bands are mapped.
+bands:
+  green: 0
+  red: 1
+  nir: 2
+
+thresholds:
+  # Cloud Detection
+  cloud_brightness: 0.30         # Min sum(G,R,B) for cloud
+  cloud_whiteness: 0.75          # Whiteness threshold
+  cloud_ndvi: 0.45               # Max NDVI for cloud
+
+  # Shadow & Water Detection
+  shadow_brightness: 0.18        # Max sum(G,R,B) for shadow
+  water_ndwi: 0.36               # NDWI threshold for water (G,NIR)
+  # No water_mndwi (SWIR not present)
+
+  # Haze & Pollution Detection (NEW)
+  haze_dark_object: 0.038        # Min blue value over dark NIR for haze
+  haze_dark_pixel_max_nir: 0.20  # Max NIR to be considered dark
+  pollution_br_ratio: 1.20       # Blue/Red ratio for pollution
+
+globals:
+  nodata_value: 0

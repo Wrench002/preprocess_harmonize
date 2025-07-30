@@ -1,0 +1,36 @@
+sensor: LISS3
+logic_type: optical_rules
+
+# Mapping of band names to array indices in the GeoTIFF.
+bands:
+  green: 0
+  red: 1
+  nir: 2
+  swir: 3
+
+# Thresholds for QA masking.
+thresholds:
+  # Cloud Detection
+  cloud_brightness: 0.28         # Min sum(G,R,B) for cloud
+  cloud_whiteness: 0.72          # Whiteness threshold
+  cloud_ndvi: 0.45               # Max NDVI for cloud pixel
+
+  # Shadow & Water Detection
+  shadow_brightness: 0.18        # Max sum(G,R,B) for shadow
+  water_ndwi: 0.36               # NDWI threshold for water (G,NIR)
+  water_mndwi: 0.38              # MNDWI threshold for water (G,SWIR)
+
+  # Snow Detection
+  snow_ndsi: 0.42                # NDSI threshold (G,SWIR)
+  snow_brightness: 0.42          # Min brightness for snow
+
+  # Haze & Pollution Detection (NEW)
+  haze_dark_object: 0.038        # Min blue over dark pixel for haze
+  haze_dark_pixel_max_nir: 0.18  # Max NIR considered "dark" for haze
+  pollution_br_ratio: 1.18       # Blue/Red ratio for pollution
+
+  # Smoke Detection (optional)
+  smoke_swir_index: 0.18
+
+globals:
+  nodata_value: 0

@@ -1,0 +1,24 @@
+sensor: SAR
+logic_type: sar_rules  # Tells the code to use the SAR-specific logic
+
+# Mapping for a typical dual-pol SAR sensor (e.g., Sentinel-1 or EOS-04).
+bands:
+  vv: 0
+  vh: 1
+
+# Thresholds for SAR QA masking.
+thresholds:
+  # Speckle (local coefficient of variation — higher means more speckle)
+  speckle_cv: 1.05
+
+  # Radar shadow (very low backscatter regions, in dB)
+  sar_shadow_db: -19
+
+  # Water (low backscatter, in dB)
+  sar_water_db: -15
+
+  # Layover/foreshortening (for future use or edge-based detection, not currently used)
+  layover_edge: 0.50
+
+globals:
+  nodata_value: 0

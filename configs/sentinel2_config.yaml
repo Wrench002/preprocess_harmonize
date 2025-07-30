@@ -1,0 +1,30 @@
+sensor: Sentinel2
+logic_type: remap_scl  # Tells the code to use the SCL remapping logic
+
+# Mapping for a standard Sentinel-2 Level-2A product.
+# The 'remap_scl' logic only requires the 'scl' band to be defined;
+# other bands are listed for completeness.
+bands:
+  blue: 0
+  green: 1
+  red: 2
+  nir: 3
+  red_edge1: 4
+  red_edge2: 5
+  red_edge3: 6
+  nir_broad: 7
+  swir1: 8
+  swir2: 9
+  scl: 10  # The crucial Scene Classification Layer that will be remapped.
+
+# The 'thresholds' block is not needed for remap_scl, but is safe to keep as reference.
+# If switching to 'optical_rules', these will enable spectral masking.
+thresholds:
+  cloud_brightness: 0.25
+  cloud_whiteness: 0.74
+  cloud_ndvi: 0.42
+  shadow_brightness: 0.17
+  water_ndwi: 0.33
+  water_mndwi: 0.35
+  snow_ndsi: 0.40
+  snow_brightness: 0.40
