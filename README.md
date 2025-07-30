@@ -1,32 +1,48 @@
 # 🛰️ Satellite Data Harmonization Pipeline
 
-A modular Python pipeline for harmonizing Earth Observation (EO) data from multiple sensors (e.g., AWiFS, LISS-3, LISS-4, Sentinel-2, SAR, Landsat-8). This system automates the transformation from raw satellite data to harmonized, cloud-optimized products—enabling scalable geospatial analysis for agriculture, urban planning, environment, and AI/ML model training.
+![Python](https://img.shields.io/badge/python-3.10+-blue?style=flat-square)
+![License](https://img.shields.io/github/license/Wrench002/preprocess_harmonize?style=flat-square)
+![Platform](https://img.shields.io/badge/platform-windows%20%7C%20linux-brightgreen?style=flat-square)
+![Issues](https://img.shields.io/github/issues/Wrench002/preprocess_harmonize?style=flat-square)
+![Stars](https://img.shields.io/github/stars/Wrench002/preprocess_harmonize?style=flat-square)
 
-![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
-![Python Version](https://img.shields.io/badge/Python-3.10+-brightgreen.svg)
-![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows-lightgrey.svg)
+A modular Python pipeline for harmonizing Earth Observation (EO) data from multiple sensors (e.g., **AWiFS, LISS-3, LISS-4, Sentinel-2, SAR, Landsat-8**).  
+This system automates the transformation from raw satellite data to harmonized, cloud-optimized products—enabling scalable geospatial analysis for agriculture, urban planning, environment, and AI/ML model training.
 
 ---
 
 ## ⚙️ Core Workflow
 
-- **Sensor-Specific Stacking**: Merges bands by date into multi-band images per sensor.
-- **Resampling & Reprojection**: Aligns all images to a common resolution and CRS.
-- **Temporal Smoothing**: Applies pixel-wise time-series smoothing for cleaner analysis.
-- **Advanced QA Masking**: Flags clouds, haze, water, SAR speckle, shadows, and no-data zones using sensor-specific thresholds.
-- **Compositing & Tiling**: Generates cloud-optimized tiles and pyramid composites for ML/GIS.
-- **Cross-Sensor Harmonization**: Radiometric and spatial harmonization across sensors.
-- **STAC Metadata Generation**: Catalogs outputs for AI-ready and GIS-searchable data ingestion.
+- **Sensor-Specific Stacking**  
+  Merges bands by date into multi-band images per sensor.
+
+- **Resampling & Reprojection**  
+  Aligns all images to a common resolution and CRS.
+
+- **Temporal Smoothing**  
+  Applies pixel-wise time-series smoothing for cleaner analysis.
+
+- **Advanced QA Masking**  
+  Flags clouds, haze, water, SAR speckle, shadows, and no-data zones using sensor-specific thresholds.
+
+- **Compositing & Tiling**  
+  Generates cloud-optimized tiles and pyramid composites for ML/GIS.
+
+- **Cross-Sensor Harmonization**  
+  Radiometric and spatial harmonization across sensors.
+
+- **STAC Metadata Generation**  
+  Catalogs outputs for AI-ready and GIS-searchable data ingestion.
 
 ---
 
 ## 📋 Features
 
-- ✅ **Supports**: AWiFS, LISS-3, LISS-4, Landsat-8, Sentinel-2, SAR
-- ⚡ **Parallelized**: Uses `joblib` for multi-core processing
-- 📦 **Automated SAFE Conversion**: Converts Sentinel-2 `.SAFE` to standardized TIFFs
-- 🧠 **AI/ML Ready**: Outputs are harmonized and optimized for model pipelines
-- 🧩 **Modular & Configurable**: YAML-based configs per sensor with customizable parameters
+- ✅ Supports: AWiFS, LISS-3, LISS-4, Landsat-8, Sentinel-2, SAR  
+- ⚡ Parallelized using `joblib` for multi-core execution  
+- 📦 Auto-converts `.SAFE` (Sentinel-2) to standardized GeoTIFFs  
+- 🧠 AI/ML Ready: Outputs are harmonized and optimized for model pipelines  
+- 🧩 Modular & Configurable: YAML-based configs per sensor with customizable parameters  
 
 ---
 
@@ -37,32 +53,29 @@ A modular Python pipeline for harmonizing Earth Observation (EO) data from multi
 ```bash
 git clone https://github.com/Wrench002/preprocess_harmonize.git
 cd preprocess_harmonize
-2. Install Miniconda/Anaconda (if not already installed)
-3. Create and Activate Conda Environment
+2. Set Up Conda Environment
 bash
 Copy
 Edit
 conda create -n satpipe python=3.10 -y
 conda activate satpipe
-4. Install Required Dependencies
+3. Install Dependencies
 bash
 Copy
 Edit
 conda install -c conda-forge gdal rasterio numpy scipy joblib pyyaml tqdm psutil libgdal-jp2openjpeg
-Note: libgdal-jp2openjpeg enables JPEG2000 (.jp2) decoding used in Sentinel-2 .SAFE files.
+📝 libgdal-jp2openjpeg is required to decode JPEG2000 (.jp2) used in Sentinel-2.
 
 🖥️ Environment & Requirements
-Tested on: Windows 11, Ubuntu 20.04+
+OS: Windows 11, Ubuntu 20.04+
 
-RAM: Minimum 6 GB recommended for parallel execution
+RAM: 6 GB+ recommended
 
-Command-Line Tools: Ensure gdal_translate and other GDAL tools are in your system PATH
+Tools: Ensure gdal_translate and other GDAL tools are available in PATH
 
 📂 Data Preparation
-1. Directory Structure
-Organize input data under raw_images/:
-
-ruby
+1. Organize Input Data
+bash
 Copy
 Edit
 raw_images/
@@ -73,30 +86,35 @@ raw_images/
 ├── Landsat8/
 └── Sentinel2/
     └── S2??MSIL2A_*.SAFE/
-2. Prepare and Rename Files
-Use the utility script to standardize band names and convert Sentinel-2 .SAFE archives to GeoTIFF:
+2. Convert and Rename Files
+Run:
 
 bash
 Copy
 Edit
 python prepare_all_sensors.py D:/Satellite_Data/raw_images
+This standardizes band names and converts .SAFE files to GeoTIFF format.
 Output format: YYYYMMDD_SENSOR_BAND.tif (e.g., 20250108_LISS3_B1.tif)
 
-If your filenames don’t match, refer to /utils/ for helpers or edit the script as needed.
+⚠️ If filenames don’t match expected format, refer to /utils/ for helper scripts.
 
 🚀 Running the Pipeline
-Step 1: Edit the Configuration
-Modify config.json and the sensor-specific YAML files in /configs/.
+Step 1: Edit Configs
+config.json: general settings
 
-Choose sensors
+/configs/: sensor-specific YAMLs
 
-Define harmonization levels
+Define:
 
-Set CRS, resampling, and tiling preferences
+Sensors
 
-Adjust parallelization settings
+CRS/resampling settings
 
-Step 2: Launch Pipeline
+Harmonization level
+
+Parallelization
+
+Step 2: Run
 bash
 Copy
 Edit
@@ -106,26 +124,26 @@ python main_pipeline.py \
   --config config.json \
   --parallel \
   --max-workers 4
-On Windows, either use a single line or ^ for line continuation.
+🔧 On Windows, use ^ or combine into one line.
 
 📁 Project Structure
 pgsql
 Copy
 Edit
 preprocess_harmonize/
-├── configs/              # YAML configs: band mappings, QA rules, etc.
-├── eo_qamask/            # QA masking logic per sensor
-├── phase_1/              # Preprocessing modules: stacking, smoothing, etc.
-├── phase_2/              # Harmonization: tiling, STAC, mosaics
-├── data-prep-scripts/    # File renaming and conversion utilities
+├── configs/              # YAML configs for bands & QA
+├── eo_qamask/            # QA masking functions per sensor
+├── phase_1/              # Stacking, smoothing, resampling, etc.
+├── phase_2/              # Harmonization, tiling, STAC output
+├── data-prep-scripts/    # Utility scripts (renaming, SAFE conversion)
+├── config.json           # Global pipeline config
 ├── main_pipeline.py      # Entry point
-├── config.json           # Main configuration
-├── LICENSE               # Apache License 2.0
-└── README.md             # This file
+├── LICENSE
+└── README.md
 📖 Citation & License
-This project is licensed under the Apache License 2.0.
+Licensed under Apache License 2.0.
 
-If you use this pipeline in your research or production systems, please cite:
+If you use this pipeline in research/publication:
 
 bibtex
 Copy
@@ -138,17 +156,16 @@ Edit
   license = {Apache-2.0}
 }
 🤝 Contributing
-Contributions are welcome! Submit PRs, raise issues, or suggest improvements.
+Pull requests, issues, and suggestions are welcome!
+Please follow modular structure and submit clean PRs with explanations.
 
 🙏 Acknowledgments
-Inspired by data pipelines from ESA, ISRO, and open-source geospatial communities
+Inspired by pipelines from ESA, ISRO, and the open geospatial community
 
-Built on top of GDAL, Rasterio, SciPy, and Anaconda ecosystems
+Built on: GDAL, Rasterio, NumPy, SciPy, Anaconda
 
-💬 Questions?
-Open an issue or reach out:
-📧 pgr.0002@gmail.com
+💬 Contact
+📧 Email: pgr.0002@gmail.com
+🔗 Repo: github.com/Wrench002/preprocess_harmonize
 
-Happy harmonizing! 🌍
-
-
+Happy Harmonizing! 🌍
